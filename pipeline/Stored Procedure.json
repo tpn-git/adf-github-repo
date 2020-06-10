@@ -1,0 +1,97 @@
+{
+	"name": "Stored Procedure",
+	"properties": {
+		"activities": [
+			{
+				"name": "Get Metadata",
+				"type": "GetMetadata",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataset": {
+						"referenceName": "dset_CopyData_Src",
+						"type": "DatasetReference"
+					},
+					"fieldList": [
+						"itemName",
+						"lastModified",
+						"size"
+					],
+					"storeSettings": {
+						"type": "AzureBlobStorageReadSettings",
+						"recursive": true
+					},
+					"formatSettings": {
+						"type": "DelimitedTextReadSettings"
+					}
+				}
+			},
+			{
+				"name": "Stored Procedure",
+				"type": "SqlServerStoredProcedure",
+				"dependsOn": [
+					{
+						"activity": "Get Metadata",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "[dbo].[usp_InsertFileLastModifiedDate]",
+					"storedProcedureParameters": {
+						"DateInserted_UTC": {
+							"value": {
+								"value": "@utcnow()",
+								"type": "Expression"
+							},
+							"type": "DateTime"
+						},
+						"FileLastModifiedDate": {
+							"value": {
+								"value": "@activity('Get Metadata').output.lastModified",
+								"type": "Expression"
+							},
+							"type": "DateTime"
+						},
+						"FileName": {
+							"value": {
+								"value": "@activity('Get Metadata').output.itemName",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"FileSize": {
+							"value": {
+								"value": "@activity('Get Metadata').output.size",
+								"type": "Expression"
+							},
+							"type": "Int32"
+						}
+					}
+				},
+				"linkedServiceName": {
+					"referenceName": "AzureSqlDatabase",
+					"type": "LinkedServiceReference"
+				}
+			}
+		],
+		"annotations": []
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

@@ -1,0 +1,39 @@
+{
+	"name": "df_CADExchangeRate",
+	"properties": {
+		"description": "CADExchangeRate_gdYYYYMMDD",
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "dset_CopyData_Src",
+						"type": "DatasetReference"
+					},
+					"name": "csvFileSource"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "dset_sinkTBL",
+						"type": "DatasetReference"
+					},
+					"name": "sinkTBL"
+				}
+			],
+			"transformations": [
+				{
+					"name": "DerivedColumn"
+				},
+				{
+					"name": "getRowCount"
+				},
+				{
+					"name": "ConditionalSplit1"
+				}
+			],
+			"script": "source(output(\n\t\t{Fiscal Year} as string,\n\t\t{Fiscal Period} as string,\n\t\tUSD as string,\n\t\tCAD as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\trowUrlColumn: 'Filename') ~> csvFileSource\ncsvFileSource derive(DateInserted_UTC = currentUTC(),\n\t\tDateInserted_EST = fromUTC(currentUTC(), 'America/New_York')) ~> DerivedColumn\ncsvFileSource aggregate({Row Count} = count(1)) ~> getRowCount\ncsvFileSource split(isNull(CAD),\n\tdisjoint: false) ~> ConditionalSplit1@(Null, notNull)\nDerivedColumn sink(input(\n\t\tFiscalYear as integer,\n\t\tFiscalPeriod as integer,\n\t\tUSD as double,\n\t\tCAD as double,\n\t\tFilename as string,\n\t\tDateInserted_UTC as timestamp,\n\t\tDateInserted_EST as timestamp\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\ttruncate:true,\n\tformat: 'table',\n\tmapColumn(\n\t\tFiscalYear = {Fiscal Year},\n\t\tFiscalPeriod = {Fiscal Period},\n\t\tUSD,\n\t\tCAD,\n\t\tFilename,\n\t\tDateInserted_UTC,\n\t\tDateInserted_EST\n\t)) ~> sinkTBL"
+		}
+	}
+}

@@ -1,0 +1,18 @@
+{
+	"name": "OnPremisesFileServer",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"description": "On-premises File Server (DELL)",
+		"annotations": [],
+		"type": "FileServer",
+		"typeProperties": {
+			"host": "\\\\TPN\\Users\\tpate\\OneDrive\\Documents\\Azure\\Azure Data Factory\\On-premises Files",
+			"userId": "tpatel3721@outlook.com",
+			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiJjYjJlYWUxNC05YzdiLTQ1NmEtYjU2YS0wZjY2ODgyMDk3OGEiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
+		},
+		"connectVia": {
+			"referenceName": "Self-Hosted-IR-DELL",
+			"type": "IntegrationRuntimeReference"
+		}
+	}
+}

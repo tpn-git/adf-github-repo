@@ -1,0 +1,28 @@
+{
+	"name": "Azure-SSIS-IR",
+	"properties": {
+		"type": "Managed",
+		"description": "Lift-and-shift existing SSIS packages to execute in Azure",
+		"typeProperties": {
+			"computeProperties": {
+				"location": "East US 2",
+				"nodeSize": "Standard_D1_v2",
+				"numberOfNodes": 1,
+				"maxParallelExecutionsPerNode": 1
+			},
+			"ssisProperties": {
+				"catalogInfo": {
+					"catalogServerEndpoint": "tpn-sqlserver.database.windows.net",
+					"catalogAdminUserName": "tpn",
+					"catalogAdminPassword": {
+						"type": "SecureString",
+						"value": "**********"
+					},
+					"catalogPricingTier": "S0"
+				},
+				"edition": "Standard",
+				"licenseType": "LicenseIncluded"
+			}
+		}
+	}
+}

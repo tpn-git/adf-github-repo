@@ -1,0 +1,133 @@
+{
+	"name": "ForEach Loops",
+	"properties": {
+		"activities": [
+			{
+				"name": "Set Files",
+				"type": "SetVariable",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "Files",
+					"value": [
+						"File1",
+						"File2",
+						"File3"
+					]
+				}
+			},
+			{
+				"name": "Is Load All Files",
+				"type": "IfCondition",
+				"dependsOn": [
+					{
+						"activity": "Set Files",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"expression": {
+						"value": "@pipeline().parameters.IsLoadAllFiles",
+						"type": "Expression"
+					},
+					"ifTrueActivities": [
+						{
+							"name": "Append File - File4",
+							"type": "AppendVariable",
+							"dependsOn": [],
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "Files",
+								"value": "File4"
+							}
+						},
+						{
+							"name": "Append File - File5",
+							"type": "AppendVariable",
+							"dependsOn": [],
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "Files",
+								"value": "File5"
+							}
+						}
+					]
+				}
+			},
+			{
+				"name": "ForEach Files",
+				"type": "ForEach",
+				"dependsOn": [
+					{
+						"activity": "Is Load All Files",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@variables('Files')",
+						"type": "Expression"
+					},
+					"activities": [
+						{
+							"name": "Delete Files",
+							"description": "Delete Files: File1,File2,File3,File4,File5",
+							"type": "Delete",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "7.00:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"dataset": {
+									"referenceName": "dset_BlobSrcFile_Dynamic",
+									"type": "DatasetReference",
+									"parameters": {
+										"Filename": {
+											"value": "@item()",
+											"type": "Expression"
+										}
+									}
+								},
+								"logStorageSettings": {
+									"linkedServiceName": {
+										"referenceName": "AzureBlobStorage",
+										"type": "LinkedServiceReference"
+									},
+									"path": "ingress"
+								},
+								"enableLogging": true,
+								"storeSettings": {
+									"type": "AzureBlobStorageReadSettings",
+									"recursive": true
+								}
+							}
+						}
+					]
+				}
+			}
+		],
+		"parameters": {
+			"IsLoadAllFiles": {
+				"type": "bool"
+			}
+		},
+		"variables": {
+			"Files": {
+				"type": "Array"
+			}
+		},
+		"annotations": []
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

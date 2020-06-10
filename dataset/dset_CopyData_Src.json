@@ -1,0 +1,42 @@
+{
+	"name": "dset_CopyData_Src",
+	"properties": {
+		"description": "Copy Data via Wizard",
+		"linkedServiceName": {
+			"referenceName": "AzureBlobStorage",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "CADExchangeRate_gd20200514_TPN.csv",
+				"container": "ingress"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "Fiscal Year",
+				"type": "String"
+			},
+			{
+				"name": "Fiscal Period",
+				"type": "String"
+			},
+			{
+				"name": "USD",
+				"type": "String"
+			},
+			{
+				"name": "CAD",
+				"type": "String"
+			}
+		]
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

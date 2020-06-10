@@ -1,0 +1,43 @@
+{
+	"name": "dset_CopyData_Dstn",
+	"properties": {
+		"description": "Copy Data via Wizard",
+		"linkedServiceName": {
+			"referenceName": "AzureSqlDatabase",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "FiscalYear",
+				"type": "int",
+				"precision": 10,
+				"scale": 0
+			},
+			{
+				"name": "FiscalPeriod",
+				"type": "int",
+				"precision": 10,
+				"scale": 0
+			},
+			{
+				"name": "USD",
+				"type": "float",
+				"precision": 53,
+				"scale": 0
+			},
+			{
+				"name": "CAD",
+				"type": "float",
+				"precision": 53,
+				"scale": 0
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "UMT_CADExchangeRate"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

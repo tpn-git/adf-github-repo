@@ -1,0 +1,99 @@
+{
+	"name": "dset_ThisWeekTBL",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureSqlDatabase",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "prescriber_id",
+				"type": "varchar"
+			},
+			{
+				"name": "first_name",
+				"type": "varchar"
+			},
+			{
+				"name": "last_name",
+				"type": "varchar"
+			},
+			{
+				"name": "product",
+				"type": "varchar"
+			},
+			{
+				"name": "week_1",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "week_2",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "week_3",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "week_4",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "week_5",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "week_6",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "week_7",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "week_8",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "week_9",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "week_10",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "week_11",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "week_12",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "week_13",
+				"type": "int",
+				"precision": 10
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "this_week"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

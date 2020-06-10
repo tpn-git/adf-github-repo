@@ -1,0 +1,52 @@
+{
+	"name": "dset_VehicleTBLs_Dynamic",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureSqlDatabase",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"Tablename": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "MAKE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "MODEL",
+				"type": "nvarchar"
+			},
+			{
+				"name": "TYPE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ORIGIN",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DRIVETRAIN",
+				"type": "nvarchar"
+			},
+			{
+				"name": "LENGTH",
+				"type": "decimal",
+				"precision": 18,
+				"scale": 0
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": {
+				"value": "@dataset().Tablename",
+				"type": "Expression"
+			}
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

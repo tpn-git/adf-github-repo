@@ -1,0 +1,57 @@
+{
+	"name": "dset_BlobSrcFile_Dynamic",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureBlobStorage",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"Filename": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": {
+					"value": "@{dataset().Filename}.csv",
+					"type": "Expression"
+				},
+				"container": "ingress"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "MAKE",
+				"type": "String"
+			},
+			{
+				"name": "MODEL",
+				"type": "String"
+			},
+			{
+				"name": "TYPE",
+				"type": "String"
+			},
+			{
+				"name": "ORIGIN",
+				"type": "String"
+			},
+			{
+				"name": "DRIVETRAIN",
+				"type": "String"
+			},
+			{
+				"name": "LENGTH",
+				"type": "String"
+			}
+		]
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

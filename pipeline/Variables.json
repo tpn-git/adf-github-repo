@@ -1,0 +1,97 @@
+{
+	"name": "Variables",
+	"properties": {
+		"activities": [
+			{
+				"name": "Set Files",
+				"type": "SetVariable",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "Files",
+					"value": [
+						"File1",
+						"File2",
+						"File3"
+					]
+				}
+			},
+			{
+				"name": "Is Load All Files",
+				"type": "IfCondition",
+				"dependsOn": [
+					{
+						"activity": "Set Files",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"expression": {
+						"value": "@pipeline().parameters.IsLoadAllFiles",
+						"type": "Expression"
+					},
+					"ifTrueActivities": [
+						{
+							"name": "Append File - File4",
+							"type": "AppendVariable",
+							"dependsOn": [],
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "Files",
+								"value": "File4"
+							}
+						},
+						{
+							"name": "Append File - File5",
+							"type": "AppendVariable",
+							"dependsOn": [],
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "Files",
+								"value": "File5"
+							}
+						}
+					]
+				}
+			},
+			{
+				"name": "Set Files List",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "Is Load All Files",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "FilesList",
+					"value": {
+						"value": "Total Files: @{length(variables('Files'))} | Filename: @{join(variables('Files'),',')}",
+						"type": "Expression"
+					}
+				}
+			}
+		],
+		"parameters": {
+			"IsLoadAllFiles": {
+				"type": "bool"
+			}
+		},
+		"variables": {
+			"Files": {
+				"type": "Array"
+			},
+			"FilesList": {
+				"type": "String"
+			}
+		},
+		"annotations": []
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

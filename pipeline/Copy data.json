@@ -1,0 +1,211 @@
+{
+	"name": "Copy data",
+	"properties": {
+		"description": "Copy Data via Wizard",
+		"activities": [
+			{
+				"name": "Copy data",
+				"type": "Copy",
+				"dependsOn": [
+					{
+						"activity": "Validation Src",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					},
+					{
+						"activity": "Validation Dstn",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [
+					{
+						"name": "Source",
+						"value": "ingress//CADExchangeRate_gd20190709.csv"
+					},
+					{
+						"name": "Destination",
+						"value": "dbo.UMT_CADExchangeRate"
+					}
+				],
+				"typeProperties": {
+					"source": {
+						"type": "DelimitedTextSource",
+						"storeSettings": {
+							"type": "AzureBlobStorageReadSettings",
+							"recursive": true
+						},
+						"formatSettings": {
+							"type": "DelimitedTextReadSettings",
+							"skipLineCount": 0
+						}
+					},
+					"sink": {
+						"type": "AzureSqlSink",
+						"preCopyScript": "TRUNCATE TABLE UMT_CADExchangeRate",
+						"disableMetricsCollection": false
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "Fiscal Year",
+									"type": "String"
+								},
+								"sink": {
+									"name": "Fiscal Year",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"name": "Fiscal Period",
+									"type": "String"
+								},
+								"sink": {
+									"name": "Fiscal Period",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"name": "USD",
+									"type": "String"
+								},
+								"sink": {
+									"name": "USD",
+									"type": "Double"
+								}
+							},
+							{
+								"source": {
+									"name": "CAD",
+									"type": "String"
+								},
+								"sink": {
+									"name": "CAD",
+									"type": "Double"
+								}
+							}
+						]
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "dset_CopyData_Src",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "dset_CopyData_Dstn",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "Validation Src",
+				"type": "Validation",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"dataset": {
+						"referenceName": "dset_CopyData_Src",
+						"type": "DatasetReference"
+					},
+					"timeout": "7.00:00:00",
+					"sleep": 10
+				}
+			},
+			{
+				"name": "Validation Dstn",
+				"type": "Validation",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"dataset": {
+						"referenceName": "dset_CopyData_Dstn",
+						"type": "DatasetReference"
+					},
+					"timeout": "7.00:00:00",
+					"sleep": 10
+				}
+			},
+			{
+				"name": "Success Email",
+				"description": "via Logic App \"adf-SuccessEmail\"\n\n\n",
+				"type": "WebActivity",
+				"dependsOn": [
+					{
+						"activity": "Copy data",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"url": "https://prod-61.eastus2.logic.azure.com:443/workflows/a2aec211fe6a4fafb7b0744a97c7c2a9/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=3taY_Rgz82vcEZXJKSjx03TsUOVHePLq-LGzqTpVD4Q",
+					"method": "POST",
+					"body": {
+						"dataFactoryName": "@{pipeline().DataFactory}",
+						"message": "@{activity('Copy data').output.dataWritten}",
+						"pipelineName": "@{pipeline().Pipeline}",
+						"receiver": "tpatel3721@outlook.com"
+					}
+				}
+			},
+			{
+				"name": "Failure Email",
+				"description": "via Logic App \"adf-FailureEmail\"",
+				"type": "WebActivity",
+				"dependsOn": [
+					{
+						"activity": "Copy data",
+						"dependencyConditions": [
+							"Failed"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"url": "https://prod-03.eastus2.logic.azure.com:443/workflows/c1be5a598a384e2c816abd4f46304bba/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=UPLxF0lBEVrEWAxOWd9rintKIqt3Mwsm1QU6uL-vjGU",
+					"method": "POST",
+					"body": {
+						"dataFactoryName": "@{pipeline().DataFactory}",
+						"message": "@{activity('Copy data').error.message}",
+						"pipelineName": "@{pipeline().Pipeline}",
+						"receiver": "tpatel3721@outlook.com"
+					}
+				}
+			}
+		],
+		"annotations": []
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

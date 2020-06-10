@@ -1,0 +1,54 @@
+{
+	"name": "dset_sinkTBL",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureSqlDatabase",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "FiscalYear",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "FiscalPeriod",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "USD",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "CAD",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "Filename",
+				"type": "varchar"
+			},
+			{
+				"name": "DateInserted_UTC",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "DateInserted_EST",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "sinkTBL"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

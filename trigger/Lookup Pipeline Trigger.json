@@ -1,0 +1,34 @@
+{
+	"name": "Lookup Pipeline Trigger",
+	"properties": {
+		"description": "Lookup Pipeline",
+		"annotations": [],
+		"runtimeState": "Stopped",
+		"pipelines": [
+			{
+				"pipelineReference": {
+					"referenceName": "Lookup",
+					"type": "PipelineReference"
+				}
+			}
+		],
+		"type": "ScheduleTrigger",
+		"typeProperties": {
+			"recurrence": {
+				"frequency": "Day",
+				"interval": 1,
+				"startTime": "2020-05-21T02:17:00Z",
+				"endTime": "2020-05-21T02:45:00Z",
+				"timeZone": "UTC",
+				"schedule": {
+					"minutes": [
+						30
+					],
+					"hours": [
+						2
+					]
+				}
+			}
+		}
+	}
+}
