@@ -1,0 +1,33 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"value": "tpn-adf"
+		},
+		"AzureBlobStorage_connectionString": {
+			"value": ""
+		},
+		"AzureSqlDatabase_connectionString": {
+			"value": ""
+		},
+		"OnPremisesFileServer_password": {
+			"value": ""
+		},
+		"OnPremisesFileServer_properties_typeProperties_host": {
+			"value": "\\\\TPN\\Users\\tpate\\OneDrive\\Documents\\Azure\\Azure Data Factory\\On-premises Files"
+		},
+		"OnPremisesFileServer_properties_typeProperties_userId": {
+			"value": "tpatel3721@outlook.com"
+		},
+		"Azure-SSIS-IR_properties_typeProperties_ssisProperties_catalogInfo_catalogServerEndpoint": {
+			"value": "tpn-sqlserver.database.windows.net"
+		},
+		"Azure-SSIS-IR_properties_typeProperties_ssisProperties_catalogInfo_catalogAdminUserName": {
+			"value": "tpn"
+		},
+		"Azure-SSIS-IR_properties_typeProperties_ssisProperties_catalogInfo_catalogAdminPassword": {
+			"value": ""
+		}
+	}
+}

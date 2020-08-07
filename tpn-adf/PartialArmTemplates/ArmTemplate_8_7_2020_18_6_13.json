@@ -1,0 +1,73 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory name",
+			"defaultValue": "tpn-adf"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "[concat(parameters('factoryName'), '/dset_BlobSrcExcel')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureBlobStorage",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "Excel",
+				"typeProperties": {
+					"sheetName": "6-15-2020",
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "PRD_USD_UMT.SPL_PDT_CLS_T Table.xlsx",
+						"container": "ingress"
+					},
+					"firstRowAsHeader": true
+				},
+				"schema": [
+					{
+						"name": "ID",
+						"type": "String"
+					},
+					{
+						"name": "whslr_id",
+						"type": "String"
+					},
+					{
+						"name": "pdt_id",
+						"type": "String"
+					},
+					{
+						"name": "spl_class",
+						"type": "String"
+					},
+					{
+						"name": "row_insrt_tms",
+						"type": "String"
+					},
+					{
+						"name": "row_updt_tms",
+						"type": "String"
+					},
+					{
+						"name": "row_stat_cd",
+						"type": "String"
+					},
+					{
+						"name": "row_usr_id",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		}
+	]
+}
