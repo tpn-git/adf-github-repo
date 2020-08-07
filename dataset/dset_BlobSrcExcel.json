@@ -1,0 +1,54 @@
+{
+	"name": "dset_BlobSrcExcel",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureBlobStorage",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Excel",
+		"typeProperties": {
+			"sheetName": "6-15-2020",
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "PRD_USD_UMT.SPL_PDT_CLS_T Table.xlsx",
+				"container": "ingress"
+			},
+			"firstRowAsHeader": true
+		},
+		"schema": [
+			{
+				"name": "ID",
+				"type": "String"
+			},
+			{
+				"name": "whslr_id",
+				"type": "String"
+			},
+			{
+				"name": "pdt_id",
+				"type": "String"
+			},
+			{
+				"name": "spl_class",
+				"type": "String"
+			},
+			{
+				"name": "row_insrt_tms",
+				"type": "String"
+			},
+			{
+				"name": "row_updt_tms",
+				"type": "String"
+			},
+			{
+				"name": "row_stat_cd",
+				"type": "String"
+			},
+			{
+				"name": "row_usr_id",
+				"type": "String"
+			}
+		]
+	}
+}
